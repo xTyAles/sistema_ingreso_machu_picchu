@@ -150,6 +150,71 @@ void buscarTurista() {
 }
 
 //codigo aqui Braulio
+void eliminarTurista() {
+    string pasaporte;
+
+    cout << "\n--- ELIMINAR TURISTA ---\n";
+    cout << "Ingrese numero de pasaporte: ";
+    cin >> pasaporte;
+
+    int indice = buscarIndiceTurista(pasaporte);
+
+    if (indice == -1) {
+        cout << "\nTurista no encontrado.\n";
+    } else {
+        turistas[indice].activo = false;
+        cout << "\nTurista eliminado correctamente.\n";
+    }
+}
+
+void ordenarPorHorario() {
+    sort(turistas, turistas + cantidadTuristas, [](Turista a, Turista b) {
+        return a.horarioIngreso < b.horarioIngreso;
+    });
+
+    cout << "\nTuristas ordenados por horario de ingreso correctamente.\n";
+}
+
+void agregarAColaIngreso() {
+    string pasaporte;
+
+    cout << "\n--- AGREGAR A COLA DE INGRESO ---\n";
+    cout << "Ingrese numero de pasaporte: ";
+    cin >> pasaporte;
+
+    int indice = buscarIndiceTurista(pasaporte);
+
+    if (indice == -1) {
+        cout << "\nTurista no encontrado.\n";
+    } else {
+        colaIngreso.push(pasaporte);
+        cout << "\nTurista agregado a la cola de ingreso.\n";
+    }
+}
+
+void atenderIngreso() {
+    cout << "\n--- CONTROL DE INGRESO ---\n";
+
+    if (colaIngreso.empty()) {
+        cout << "No hay turistas en la cola de ingreso.\n";
+        return;
+    }
+
+    string pasaporte = colaIngreso.front();
+    colaIngreso.pop();
+
+    int indice = buscarIndiceTurista(pasaporte);
+
+    if (indice != -1) {
+        cout << "Ingresando turista:\n";
+        cout << "Pasaporte: " << turistas[indice].pasaporte << endl;
+        cout << "Nombre: " << turistas[indice].nombre << endl;
+        cout << "Horario: " << obtenerHorarioTexto(turistas[indice].horarioIngreso) << endl;
+        cout << "Circuito: " << turistas[indice].circuito << endl;
+    } else {
+        cout << "El turista ya no se encuentra activo en el sistema.\n";
+    }
+}
 
 void registrarCircuitoVisitado() {
     string pasaporte;
